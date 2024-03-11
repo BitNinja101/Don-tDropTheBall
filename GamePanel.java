@@ -8,6 +8,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.Timer;
+import java.awt.image.BufferedImage;
+import java.awt.Image;
+
 
 public class GamePanel extends JPanel{
 
@@ -17,6 +20,9 @@ public class GamePanel extends JPanel{
     private Timer timer;
     private Graphics g;
     private static int count;
+
+    private BufferedImage image;
+ 	 private Image backgroundImage;
     
     public GamePanel() {
         ball = null;
@@ -24,6 +30,8 @@ public class GamePanel extends JPanel{
         slider = null;
         bwall = null;
         count = 0;
+        backgroundImage = ImageManager.loadImage ("images/Background.jpg");
+        image = new BufferedImage (400, 400, BufferedImage.TYPE_INT_RGB);
     }
     
     public void createGameEntities() {
@@ -74,10 +82,10 @@ public class GamePanel extends JPanel{
     }
     
     public void endGame() {  
-           ball.stop();
-           if (ball2 != null) {
-           ball2.stop();
-           }
+         ball.endGame();
+         if (ball2 != null) {
+            ball2.endGame();
+         }
     }
  
     public boolean isOnSlider (int x, int y) {

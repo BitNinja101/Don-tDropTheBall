@@ -25,6 +25,8 @@ public class Ball extends Thread {
     private static final long COLLISION_COOLDOWN = 500;
     private long bricklastCollisionTime = 0;
     private static final long COLLISION_BRICKCOOLDOWN = 200;
+
+    private SoundManager soundManager;
     
     
     private Dimension dimension;
@@ -54,6 +56,8 @@ public class Ball extends Thread {
         this.diameter = diameter;
         tracker = 3000;
         lives = 3;
+        isRunning = true;
+        soundManager = SoundManager.getInstance();
     }
     
     public void move() {
@@ -137,7 +141,7 @@ public class Ball extends Thread {
    
     public void run () {
 
-      isRunning = true;
+      isRunning = getRunning();
 
       try {
         while (isRunning) {
@@ -157,6 +161,14 @@ public class Ball extends Thread {
       
       return sliRect.intersects(ballRect); 
     }
+
+   public void endGame(){
+      isRunning = false;
+   }
+
+   public boolean getRunning(){
+      return isRunning;
+   }
     
   
     
@@ -166,6 +178,7 @@ public class Ball extends Thread {
                     Rectangle2D.Double ballRect = getBounds();
                     Rectangle2D.Double brickRect = brick.getBounds();
                     if(brickRect.intersects(ballRect) == true){
+                         soundManager.playClip("hit", false);
                          brick.setVisible(false);
                          brick.erase(panel);
                          bwall.setPoints();
